@@ -1,6 +1,8 @@
 module AtomsIO
-# @reexport using AtomsBase
-using AtomsBase
+using Reexport
+@reexport using AtomsBase
+using Unitful
+using UnitfulAtomic
 
 include("parser.jl")
 include("ase.jl")

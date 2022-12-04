@@ -1,7 +1,7 @@
 using ASEconvert
 
 """
-Ase supports additional kwarg format
+Parse or write files using the Atomistic Simulation Environment (ASE)
 """
 struct AseParser <: AbstractParser end
 
@@ -21,9 +21,7 @@ function supports_parsing(::AseParser, file; save, trajectory)
     trajectory && supports_trajectory
 end
 
-
-
-function load_system(::AseParser, file::AbstractString; index=nothing, format=nothing)
+function load_system(::AseParser, file::AbstractString, index=nothing; format=nothing)
     pyindex = isnothing(index) ? nothing : index - 1
     pyconvert(AbstractSystem, ase.io.read(file; format, index=pyindex))
 end
