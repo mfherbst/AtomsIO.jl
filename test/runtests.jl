@@ -1,6 +1,8 @@
-using AtomIO
 using Test
+@testset "AtomsIO.jl" begin
+    include("ase.jl")
+    include("chemfiles.jl")
 
-@testset "AtomIO.jl" begin
-    # Write your tests here.
+    # TODO comparison test
+    # TODO Code which actually runs the selection part
 end

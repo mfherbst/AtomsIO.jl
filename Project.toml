@@ -1,18 +1,22 @@
-name = "AtomIO"
+name = "AtomsIO"
 uuid = "1692102d-eeb4-4df9-807b-c9517f998d44"
 authors = ["Michael F. Herbst <info@michael-herbst.com> and contributors"]
 version = "0.1.0"
 
 [deps]
+ASEconvert = "3da9722f-58c2-4165-81be-b4d7253e8fd2"
 AtomsBase = "a963bdd2-2df7-4f54-a1ee-49d51e6be12a"
-PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+Chemfiles = "46823bd8-5fb3-5f92-9aa0-96921f3dd015"
+ExtXYZ = "352459e4-ddd7-4360-8937-99dcb397b478"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [compat]
 AtomsBase = "0.2"
 PyCall = "1"
 Unitful = "1"
-julia = "1"
+julia = "1.6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

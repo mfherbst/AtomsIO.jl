@@ -6,3 +6,5 @@
 *.swp
 *.swo
 *~
+/.CondaPkg
+/test/.CondaPkg
