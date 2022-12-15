@@ -27,7 +27,7 @@ the last entry is returned. If `index` is specified this indexes into the list o
 and returns the respective system.
 
 By default `AtomsIO` picks an appropriate parser for the specified file format automatically.
-A specific parser (such as [`ExtXYZParser`](@ref) or [`AseParser`](@ref)) can be enforced by
+A specific parser (such as [`ExtxyzParser`](@ref) or [`AseParser`](@ref)) can be enforced by
 using it as the first argument. Some parsers support additional keyword arguments.
 E.g. `AseParser` supports the `format` argument to overwrite the ASE-internal selection of
 an input / output format.
@@ -41,7 +41,7 @@ end
 
 Save an AtomsBase-compatible system to the `file`. By default `AtomsIO` picks an appropriate
 parser for the specified file format automatically. A specific parser
-(such as [`ExtXYZParser`](@ref) or [`AseParser`](@ref)) can be enforced by
+(such as [`ExtxyzParser`](@ref) or [`AseParser`](@ref)) can be enforced by
 using it as the first argument. Some parsers support additional keyword arguments.
 E.g. `AseParser` supports the `format` argument to overwrite the ASE-internal selection of
 an input / output format.

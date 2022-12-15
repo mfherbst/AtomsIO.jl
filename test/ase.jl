@@ -16,7 +16,7 @@ end
         outfile = joinpath(d, "output.extxyz")
         save_system(AseParser(), outfile, system)
         newsystem = load_system(AseParser(), outfile)
-        test_approx_eq(system, newsystem, atol=1e-8)
+        test_approx_eq(system, newsystem, atol=1e-6)
     end
 end
 
@@ -28,7 +28,7 @@ end
         save_trajectory(AseParser(), outfile, systems)
         newsystems = load_trajectory(AseParser(), outfile)
         for (system, newsystem) in zip(systems, newsystems)
-            test_approx_eq(system, newsystem, atol=1e-8)
+            test_approx_eq(system, newsystem, atol=1e-6)
         end
 
         test_approx_eq(systems[end], load_system(AseParser(), outfile))

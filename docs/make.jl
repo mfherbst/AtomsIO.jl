@@ -17,7 +17,7 @@ makedocs(;
     repo="https://github.com/mfherbst/AtomsIO.jl/blob/{commit}{path}#{line}",
     sitename="AtomsIO",
     format=Documenter.HTML(;
-        prettyurls=get(ENV, "CI", "false") == "true"
+        prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://mfherbst.github.io/AtomsIO.jl",
         edit_link="master",
         assets=String[],
