@@ -20,7 +20,7 @@ end
 @testset "Test simple XYZ files parse the same" begin
     drop_atprop  = [:covalent_radius, :vdw_radius, :atomic_mass, :charge, :velocity]
     drop_sysprop = [:extra_data]
-    data = make_test_system(D; drop_atprop, drop_sysprop, cellmatrix=:lower_triangular)
+    data = make_test_system(; drop_atprop, drop_sysprop, cellmatrix=:lower_triangular)
     system = periodic_system(data.atoms, data.box; data.sysprop...)
 
     mktempdir() do d
