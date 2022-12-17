@@ -47,3 +47,28 @@ end
         @test readlines(file1) == readlines(file2)
     end
 end
+
+@testset "ASE supports_parsing" begin
+    import AtomsIO: supports_parsing
+    mktempdir() do d
+        prefix = joinpath(d, "test")
+
+        @test  supports_parsing(AseParser(), prefix * ".pwi";  save=true,  trajectory=false)
+        @test !supports_parsing(AseParser(), prefix * ".pwi";  save=true,  trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".cif";  save=true,  trajectory=false)
+        @test  supports_parsing(AseParser(), prefix * ".cif";  save=true,  trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".traj"; save=true,  trajectory=false)
+        @test  supports_parsing(AseParser(), prefix * ".traj"; save=true,  trajectory=true )
+
+        for ext in (".pwi", ".cif", ".traj")
+            save_system(AseParser(), prefix * ext, make_ase_system().system)
+        end
+
+        @test  supports_parsing(AseParser(), prefix * ".pwi";  save=false, trajectory=false)
+        @test !supports_parsing(AseParser(), prefix * ".pwi";  save=false, trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".cif";  save=false, trajectory=false)
+        @test  supports_parsing(AseParser(), prefix * ".cif";  save=false, trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".traj"; save=false, trajectory=false)
+        @test  supports_parsing(AseParser(), prefix * ".traj"; save=false, trajectory=true )
+    end
+end

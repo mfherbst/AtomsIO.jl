@@ -3,7 +3,7 @@ import PeriodicTable
 using Logging
 
 """
-Parse or write file using Chemfiles
+Parse or write file using [Chemfiles](https://github.com/chemfiles/Chemfiles.jl).
 """
 struct ChemfilesParser <: AbstractParser end
 
@@ -16,12 +16,10 @@ function supports_parsing(::ChemfilesParser, file; save, trajectory)
     filtered = filter(f -> f.name == format, Chemfiles.format_list())
     length(filtered) != 1 && return false
 
-    if save && filtered[1].write
-        return true
-    elseif !save && filtered[1].write
-        return true
+    if save
+        return filtered[1].write
     else
-        return false
+        return filtered[1].read
     end
 end
 
