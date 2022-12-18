@@ -3,6 +3,7 @@ using Reexport
 @reexport using AtomsBase
 using Unitful
 using UnitfulAtomic
+import PeriodicTable
 
 include("parser.jl")
 include("ase.jl")
