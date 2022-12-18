@@ -11,7 +11,27 @@ AtomsIO currently integrates with
 and supports all file formats any of these packages support.
 The best-matching backend for reading / writing is automatically chosen.
 
-More details will follow soon.
+!!! note
+    Unfortunately atomistic file formats are usually horribly underspecified
+    and generally not all details are supported in all formats.
+    Common examples are that some file formats are unable to store velocity
+    information, others only work for non-periodic systems etc.
+    Therefore even though we try to be careful, it frequently happens that
+    some information is lost when writing a system to disk.
+    An additional caveat is that the way how particular atomistic properties
+    are mapped to individual data fields of a file format is not standardised
+    amongst parser libraries. To recover a system as closely as possible,
+    it is thus advisable to choose the same parser library for writing and
+    reading a file. AtomsIO does this by default.
+
+!!! tip
+    For the reasons mentioned above the authors of AtomsIO recommend using
+    extended XYZ format via the [`ExtxyzParser`](@ref) for long-term storage.
+    This format and parser has a
+    [well-documented specification](https://github.com/libAtoms/extxyz#extended-xyz-specifcation)
+    and moreover leads to a human-readable plain-text file.
+    If you have a different opinion we are happy to hear about it.
+    Please open an issue for discussion.
 
 ## Usage example
 
