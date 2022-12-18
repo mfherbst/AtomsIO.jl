@@ -115,3 +115,17 @@ end
                        atol=1e-6, ignore_atprop)
     end
 end
+
+@testset "Chemfiles supports_parsing" begin
+    import AtomsIO: supports_parsing
+    trajectory = true
+    prefix = "test"
+
+    @test !supports_parsing(ChemfilesParser(), prefix * ".trj"; save=true, trajectory)
+    @test  supports_parsing(ChemfilesParser(), prefix * ".cif"; save=true, trajectory)
+    @test  supports_parsing(ChemfilesParser(), prefix * ".sdf"; save=true, trajectory)
+
+    @test  supports_parsing(ChemfilesParser(), prefix * ".trj"; save=false, trajectory)
+    @test  supports_parsing(ChemfilesParser(), prefix * ".cif"; save=false, trajectory)
+    @test  supports_parsing(ChemfilesParser(), prefix * ".sdf"; save=false, trajectory)
+end

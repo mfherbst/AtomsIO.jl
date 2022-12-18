@@ -1,9 +1,8 @@
 import Chemfiles
-import PeriodicTable
 using Logging
 
 """
-Parse or write file using Chemfiles
+Parse or write file using [Chemfiles](https://github.com/chemfiles/Chemfiles.jl).
 """
 struct ChemfilesParser <: AbstractParser end
 
@@ -16,12 +15,10 @@ function supports_parsing(::ChemfilesParser, file; save, trajectory)
     filtered = filter(f -> f.name == format, Chemfiles.format_list())
     length(filtered) != 1 && return false
 
-    if save && filtered[1].write
-        return true
-    elseif !save && filtered[1].write
-        return true
+    if save
+        return filtered[1].write
     else
-        return false
+        return filtered[1].read
     end
 end
 
@@ -156,8 +153,7 @@ function convert_chemfiles(system::AbstractSystem{D}) where {D}
         # can be more elaborate (e.g. D instead of H or "¹⁸O" instead of just "O").
         # In Chemfiles this is solved using the "name" of an atom ... to which we
         # map the AtomsBase.atomic_symbol.
-        identifier = PeriodicTable.elements[atomic_number(atom)].symbol
-        cf_atom = Chemfiles.Atom(identifier)
+        cf_atom = Chemfiles.Atom(PeriodicTable.elements[atomic_number(atom)].symbol)
         Chemfiles.set_name!(cf_atom, string(atomic_symbol(atom)))
         Chemfiles.set_mass!(cf_atom, ustrip(u"u", atomic_mass(atom)))
         @assert Chemfiles.atomic_number(cf_atom) == atomic_number(atom)

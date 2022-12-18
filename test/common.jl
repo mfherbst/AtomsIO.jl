@@ -33,7 +33,14 @@ function test_approx_eq(s::AbstractSystem, t::AbstractSystem;
         for (at_s, at_t) in zip(s, t)
             @test hasproperty(at_s, prop) == hasproperty(at_t, prop)
             if hasproperty(at_s, prop) && hasproperty(at_t, prop)
-                @test getproperty(at_s, prop) == getproperty(at_t, prop)
+                prop_s = getproperty(at_s, prop)
+                prop_t = getproperty(at_t, prop)
+
+                if prop_s isa Quantity
+                    @test maximum(prop_s - prop_t) < atol * unit(prop_s)
+                else
+                    @test prop_s == prop_t
+                end
             end
         end
     end

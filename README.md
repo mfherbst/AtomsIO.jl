@@ -13,8 +13,11 @@
 Standard package for reading and writing atomic structures represented as an
 [AtomsBase](https://github.com/JuliaMolSim/AtomsBase.jl)-compatible data structure.
 AtomsIO currently integrates with
+
   - [Chemfiles](https://github.com/chemfiles/Chemfiles.jl)
+  - [ExtXYZ](https://github.com/libAtoms/ExtXYZ.jl)
   - [ASEconvert](https://github.com/mfherbst/ASEconvert.jl) (respectively [ASE](https://wiki.fysik.dtu.dk/ase/))
+
 and supports all file formats any of these packages support.
 The best-matching backend for reading / writing is automatically chosen.
 
