@@ -12,6 +12,7 @@ end
 
 
 function load_system(::ExtxyzParser, file::AbstractString, index=nothing)
+    isfile(file) || throw(ArgumentError("File $file not found"))
     frame = (isnothing(index) ? last(ExtXYZ.read_frames(file))
                               : only(ExtXYZ.read_frames(file, index)))
     parse_extxyz(frame)
@@ -22,6 +23,7 @@ function save_system(::ExtxyzParser, file::AbstractString, system::AbstractSyste
 end
 
 function load_trajectory(::ExtxyzParser, file::AbstractString)
+    isfile(file) || throw(ArgumentError("File $file not found"))
     parse_extxyz.(ExtXYZ.read_frames(file))
 end
 
