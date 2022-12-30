@@ -25,13 +25,12 @@ The best-matching backend for reading / writing is automatically chosen.
     reading a file. AtomsIO does this by default.
 
 !!! tip
-    For the reasons mentioned above the authors of AtomsIO recommend using
-    extended XYZ format via the [`ExtxyzParser`](@ref) for long-term storage.
+    For the reasons mentioned above a good long-term storage format
+    (in the eyes of the AtomsIO authors) is the extended XYZ format
+    via the [`ExtxyzParser`](@ref).
     This format and parser has a
     [well-documented specification](https://github.com/libAtoms/extxyz#extended-xyz-specifcation)
     and moreover leads to a human-readable plain-text file.
-    If you have a different opinion we are happy to hear about it.
-    Please open an issue for discussion.
 
 ## Usage example
 
