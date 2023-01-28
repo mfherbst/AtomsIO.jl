@@ -1,4 +1,5 @@
 using AtomsIO
+using ASEconvert
 using Test
 include("common.jl")
 

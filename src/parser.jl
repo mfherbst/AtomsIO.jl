@@ -4,7 +4,16 @@ supports_parsing(::AbstractParser, file; save, trajectory) = false
 
 function determine_parser(file; save=false, trajectory=false)
     # TODO For now the list of registered parsers is hard-coded
-    registered_parsers = [ExtxyzParser(), AseParser(), ChemfilesParser()]
+    registered_parsers = []
+    if isdefined(AtomsIO, :ExtxyzParser)
+        push!(registered_parsers, ExtxyzParser())
+    end
+    if isdefined(AtomsIO, :AseParser)
+        push!(registered_parsers, AseParser())
+    end
+    if isdefined(AtomsIO, :ChemfilesParser)
+        push!(registered_parsers, ChemfilesParser())
+    end
 
     idx_parser = findfirst(registered_parsers) do parser
         supports_parsing(parser, file; save, trajectory)
