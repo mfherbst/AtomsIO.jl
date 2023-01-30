@@ -33,6 +33,11 @@ For more details see the [documentation](https://mfherbst.github.io/AtomsIO.jl/s
 ```julia
 using AtomsIO
 
+# Load ASEconvert if you want to use it.
+# This will load PythonCall and other ASEconvert dependencies.
+# Not loading ASEconvert allows using AtomsIO without python.
+using ASEconvert
+
 # Load system from a cif file ... by default uses ASE.
 # Returns an AtomsBase-compatible system.
 system = load_system("Si.cif")
