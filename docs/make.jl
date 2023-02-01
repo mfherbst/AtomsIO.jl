@@ -6,6 +6,7 @@ if !isfile(joinpath(@__DIR__, "Manifest.toml"))
     Pkg.instantiate()
 end
 
+using ASEconvert
 using AtomsIO
 using Documenter
 
