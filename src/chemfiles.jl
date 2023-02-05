@@ -63,12 +63,15 @@ function parse_chemfiles(frame::Chemfiles.Frame)
     # TODO Should be moved to Chemfiles as a
     #      convert(AbstractSystem, ::Chemfile.Frame)
 
+    # Regarding the unit conventions, see:
+    # https://chemfiles.org/chemfiles/latest/overview.html#units
+    #
     atoms = map(1:length(frame), frame) do i, atom
         pos = Chemfiles.positions(frame)[:, i]u"Å"
         if Chemfiles.has_velocities(frame)
-            velocity = Chemfiles.velocities(frame)[:, i]u"Å/s"
+            velocity = Chemfiles.velocities(frame)[:, i]u"Å/ps"
         else
-            velocity = zeros(3)u"Å/s"
+            velocity = zeros(3)u"Å/ps"
         end
 
         # Collect atomic properties
@@ -158,26 +161,23 @@ function convert_chemfiles(system::AbstractSystem{D}) where {D}
         Chemfiles.set_mass!(cf_atom, ustrip(u"u", atomic_mass(atom)))
         @assert Chemfiles.atomic_number(cf_atom) == atomic_number(atom)
 
-        if atom isa Atom
-            # TODO not a good idea to directly access the field
-            # TODO Implement and make use of a property interface on the atom level
-            for (k, v) in atom.data
-                if k == :charge
-                    Chemfiles.set_charge!(cf_atom, ustrip(u"e_au", v))
-                elseif k == :vdw_radius
-                    if v != Chemfiles.vdw_radius(cf_atom)u"Å"
-                        @warn "Atom vdw_radius in Chemfiles cannot be mutated"
-                    end
-                elseif k == :covalent_radius
-                    if v != Chemfiles.covalent_radius(cf_atom)u"Å"
-                        @warn "Atom covalent_radius in Chemfiles cannot be mutated"
-                    end
-                elseif v isa Union{Bool, Float64, String, Vector{Float64}}
-                    Chemfiles.set_property!(cf_atom, string(k), v)
-                else
-                    @warn("Ignoring unsupported property type ($(typeof(v)))" *
-                          " in Chemfiles for atom key $k")
+        for (k, v) in pairs(atom)
+            if k in (:atomic_symbol, :atomic_number, :atomic_mass, :velocity, :position)
+                continue  # Dealt with separately
+            elseif k == :charge
+                Chemfiles.set_charge!(cf_atom, ustrip(u"e_au", v))
+            elseif k == :vdw_radius
+                if v != Chemfiles.vdw_radius(cf_atom)u"Å"
+                    @warn "Atom vdw_radius in Chemfiles cannot be mutated"
                 end
+            elseif k == :covalent_radius
+                if v != Chemfiles.covalent_radius(cf_atom)u"Å"
+                    @warn "Atom covalent_radius in Chemfiles cannot be mutated"
+                end
+            elseif v isa Union{Bool, Float64, String, Vector{Float64}}
+                Chemfiles.set_property!(cf_atom, string(k), v)
+            else
+                @warn "Ignoring unsupported property type $(typeof(v)) in Chemfiles for key $k"
             end
         end
 
@@ -185,25 +185,22 @@ function convert_chemfiles(system::AbstractSystem{D}) where {D}
         if ismissing(velocity(atom))
             Chemfiles.add_atom!(frame, cf_atom, pos)
         else
-            vel = convert(Vector{Float64}, ustrip.(u"Å/s", velocity(atom)))
+            vel = convert(Vector{Float64}, ustrip.(u"Å/ps", velocity(atom)))
             Chemfiles.add_atom!(frame, cf_atom, pos, vel)
         end
     end
 
-    if system isa FlexibleSystem
-        # TODO not a good idea to directly access the field
-        # TODO Implement and make use of a property interface on the system level
-        for (k, v) in system.data
-            if k == :charge
-                Chemfiles.set_property!(frame, string(k), Float64(ustrip(u"e_au", v)))
-            elseif k == :multiplicity
-                Chemfiles.set_property!(frame, string(k), Float64(v))
-            elseif v isa Union{Bool, Float64, String, Vector{Float64}}
-                Chemfiles.set_property!(frame, string(k), v)
-            else
-                @warn("Ignoring unsupported property type ($(typeof(v)))" *
-                      " in Chemfiles for system key $k")
-            end
+    for (k, v) in pairs(system)
+        if k in (:bounding_box, :boundary_conditions)
+            continue  # Already dealt with
+        elseif k in (:charge, )
+            Chemfiles.set_property!(frame, string(k), Float64(ustrip(u"e_au", v)))
+        elseif k in (:multiplicity, )
+            Chemfiles.set_property!(frame, string(k), Float64(v))
+        elseif v isa Union{Bool, Float64, String, Vector{Float64}}
+            Chemfiles.set_property!(frame, string(k), v)
+        else
+            @warn "Ignoring unsupported property type $(typeof(v)) in Chemfiles for key $k"
         end
     end
 

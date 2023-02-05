@@ -32,7 +32,7 @@ end
         @test(Chemfiles.positions(frame)[:, i]
               ≈ ustrip.(u"Å", atprop.position[i]), atol=1e-12)
         @test(Chemfiles.velocities(frame)[:, i]
-              ≈ ustrip.(u"Å/s", atprop.velocity[i]), atol=1e-12)
+              ≈ ustrip.(u"Å/ps", atprop.velocity[i]), atol=1e-12)
 
         @test Chemfiles.name(atom)            == string(atprop.atomic_symbol[i])
         @test Chemfiles.atomic_number(atom)   == atprop.atomic_number[i]
@@ -66,7 +66,7 @@ end
     system, atoms, atprop, sysprop, box, bcs = make_test_system()
     frame  = @test_logs((:warn, r"Atom vdw_radius in Chemfiles cannot be mutated"),
                         (:warn, r"Atom covalent_radius in Chemfiles cannot be mutated"),
-                        (:warn, r"Ignoring unsupported property type \(Int64\).*extra_data"),
+                        (:warn, r"Ignoring unsupported property type Int64.*key extra_data"),
                         (:warn, r"Ignoring specified boundary conditions:"),
                         match_mode=:any, AtomsIO.convert_chemfiles(system))
 
@@ -84,7 +84,7 @@ end
     frame  = AtomsIO.convert_chemfiles(system)
     newsystem = AtomsIO.parse_chemfiles(frame)
     test_approx_eq(system, newsystem;
-                   atol=1e-12, ignore_atprop=[:covalent_radius, :vdw_radius])
+                   rtol=1e-12, ignore_atprop=[:covalent_radius, :vdw_radius])
 end
 
 @testset "Chemfiles system write / read" begin
@@ -94,7 +94,7 @@ end
         save_system(ChemfilesParser(), outfile, system)
         system2 = load_system(ChemfilesParser(), outfile)
         test_approx_eq(system, system2;
-                       atol=1e-6, ignore_atprop=[:covalent_radius, :vdw_radius])
+                       rtol=1e-6, ignore_atprop=[:covalent_radius, :vdw_radius])
     end
 end
 
@@ -106,13 +106,13 @@ end
         save_trajectory(ChemfilesParser(), outfile, systems)
         newsystems = load_trajectory(ChemfilesParser(), outfile)
         for (system, newsystem) in zip(systems, newsystems)
-            test_approx_eq(system, newsystem; atol=1e-6, ignore_atprop)
+            test_approx_eq(system, newsystem; rtol=1e-6, ignore_atprop)
         end
 
         test_approx_eq(systems[end], load_system(ChemfilesParser(), outfile);
-                       atol=1e-6, ignore_atprop)
+                       rtol=1e-6, ignore_atprop)
         test_approx_eq(systems[2],   load_system(ChemfilesParser(), outfile, 2);
-                       atol=1e-6, ignore_atprop)
+                       rtol=1e-6, ignore_atprop)
     end
 end
 
