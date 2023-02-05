@@ -191,7 +191,9 @@ function convert_chemfiles(system::AbstractSystem{D}) where {D}
     end
 
     for (k, v) in pairs(system)
-        if k in (:charge, )
+        if k in (:bounding_box, :boundary_conditions)
+            continue  # Already dealt with
+        elseif k in (:charge, )
             Chemfiles.set_property!(frame, string(k), Float64(ustrip(u"e_au", v)))
         elseif k in (:multiplicity, )
             Chemfiles.set_property!(frame, string(k), Float64(v))

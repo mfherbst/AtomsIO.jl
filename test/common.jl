@@ -12,7 +12,8 @@ Test whether two abstract systems are approximately the same. Certain atomic or 
 properties can be ignored during the comparison using the respective kwargs.
 """
 function test_approx_eq(s::AbstractSystem, t::AbstractSystem;
-                        rtol=1e-14, ignore_atprop=Symbol[], ignore_sysprop=Symbol[])
+                        rtol=1e-14, ignore_atprop=Symbol[], ignore_sysprop=Symbol[],
+                        common_only=false)
     rnorm(a, b) = (ustrip(norm(a)) < rtol ? norm(a - b) / 1unit(norm(a))
                                           : norm(a - b) / norm(a))
 
@@ -39,11 +40,19 @@ function test_approx_eq(s::AbstractSystem, t::AbstractSystem;
         end
     end
 
-    extra_atomic_props = (:charge, :covalent_radius, :vdw_radius, :magnetic_moment)
-    for prop in Set([atomkeys(s)..., atomkeys(t)..., extra_atomic_props...])
+    if common_only
+        test_atprop = [k for k in atomkeys(s) if hasatomkey(t, k)]
+    else
+        extra_atomic_props = (:charge, :covalent_radius, :vdw_radius, :magnetic_moment)
+        test_atprop = Set([atomkeys(s)..., atomkeys(t)..., extra_atomic_props...])
+    end
+    for prop in test_atprop
         prop in ignore_atprop && continue
         prop in (:velocity, :position) && continue
-        @test hasatomkey(s, prop) == hasatomkey(t, prop)
+        if hasatomkey(s, prop) != hasatomkey(t, prop)
+            println("hashatomkey mismatch for $prop")
+            @test hasatomkey(s, prop) == hasatomkey(t, prop)
+        end
         for (at_s, at_t) in zip(s, t)
             @test haskey(at_s, prop) == haskey(at_t, prop)
             if haskey(at_s, prop) && haskey(at_t, prop)
@@ -56,12 +65,23 @@ function test_approx_eq(s::AbstractSystem, t::AbstractSystem;
         end
     end
 
-    extra_system_props = (:charge, :multiplicity)
-    for prop in Set([keys(s)..., keys(t)..., extra_system_props...])
+    if common_only
+        test_sysprop = [k for k in keys(s) if haskey(t, k)]
+    else
+        extra_system_props = (:charge, :multiplicity)
+        test_sysprop = Set([keys(s)..., keys(t)..., extra_system_props...])
+    end
+    for prop in test_sysprop
         prop in ignore_sysprop && continue
-        @test haskey(s, prop) == haskey(t, prop)
+        if haskey(s, prop) != haskey(t, prop)
+            println("haskey mismatch for $prop")
+            @test haskey(s, prop) == haskey(t, prop)
+        end
+
         if s[prop] isa Quantity
             @test rnorm(s[prop], t[prop]) < rtol
+        elseif prop in (:bounding_box, )
+            @test maximum(map(rnorm, s[prop], t[prop])) < rtol
         else
             @test s[prop] == t[prop]
         end

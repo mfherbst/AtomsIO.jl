@@ -12,8 +12,10 @@ include("common.jl")
 
         ignore_atprop  = [:vdw_radius, :covalent_radius, :magnetic_moment]
         ignore_sysprop = [:spacegroup, :occupancy, :unit_cell]
-        test_approx_eq(sys_ase, sys_cf; ignore_atprop, ignore_sysprop, atol=1e-5)
-        test_approx_eq(sys_ase, sys_def; ignore_atprop, ignore_sysprop, atol=1e-5)
+        test_approx_eq(sys_ase, sys_cf;
+                       ignore_atprop, ignore_sysprop, rtol=1e-5, common_only=true)
+        test_approx_eq(sys_ase, sys_def;
+                       ignore_atprop, ignore_sysprop, rtol=1e-5, common_only=true)
     end
 end
 
@@ -33,8 +35,8 @@ end
         sys_def  = load_system(outfile)
 
         ignore_atprop  = [:magnetic_moment, :charge, :vdw_radius, :covalent_radius]
-        test_approx_eq(sys_ase, sys_cf;  ignore_atprop, atol=1e-5)
-        test_approx_eq(sys_ase, sys_xyz; ignore_atprop, atol=1e-5)
-        test_approx_eq(sys_ase, sys_def; ignore_atprop, atol=1e-5)
+        test_approx_eq(sys_ase, sys_cf;  ignore_atprop, rtol=1e-5, common_only=true)
+        test_approx_eq(sys_ase, sys_xyz; ignore_atprop, rtol=1e-5, common_only=true)
+        test_approx_eq(sys_ase, sys_def; ignore_atprop, rtol=1e-5, common_only=true)
     end
 end
