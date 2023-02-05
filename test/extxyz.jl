@@ -79,7 +79,7 @@ end
     end
 end
 
-@testset "Chemfiles trajectory write/read" begin
+@testset "ExtXYZ trajectory write/read" begin
     systems = [make_test_system().system for _ in 1:3]
     mktempdir() do d
         outfile = joinpath(d, "output.extxyz")

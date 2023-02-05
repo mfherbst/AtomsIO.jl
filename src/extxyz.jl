@@ -10,7 +10,6 @@ function supports_parsing(::ExtxyzParser, file; save, trajectory)
     ext in (".xyz", ".extxyz")
 end
 
-
 function load_system(::ExtxyzParser, file::AbstractString, index=nothing)
     frame = (isnothing(index) ? last(ExtXYZ.read_frames(file))
                               : only(ExtXYZ.read_frames(file, index)))
