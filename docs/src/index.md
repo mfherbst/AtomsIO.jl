@@ -6,36 +6,30 @@ AtomsIO currently integrates with
 
   - [Chemfiles](https://github.com/chemfiles/Chemfiles.jl)
   - [ExtXYZ](https://github.com/libAtoms/ExtXYZ.jl)
-  - [ASEconvert](https://github.com/mfherbst/ASEconvert.jl) (respectively [ASE](https://wiki.fysik.dtu.dk/ase/))
+  - [ASEconvert](https://github.com/mfherbst/ASEconvert.jl)
+    (respectively [ASE](https://wiki.fysik.dtu.dk/ase/))
 
-and supports all file formats any of these packages support.
-The best-matching backend for reading / writing is automatically chosen.
+and supports all file formats any of these packages support
+(see their respective documentation). This includes
 
-!!! note
-    Unfortunately atomistic file formats are usually horribly underspecified
-    and generally not all details are supported in all formats.
-    Common examples are that some file formats are unable to store velocity
-    information, others only work for non-periodic systems etc.
-    Therefore even though we try to be careful, it frequently happens that
-    some information is lost when writing a system to disk.
-    An additional caveat is that the way how particular atomistic properties
-    are mapped to individual data fields of a file format is not standardised
-    amongst parser libraries. To recover a system as closely as possible,
-    it is thus advisable to choose the same parser library for writing and
-    reading a file. AtomsIO does this by default.
+  - [Crystallographic Information Framework](https://www.iucr.org/resources/cif) (CIF) files
+  - [Quantum Espresso](https://www.quantum-espresso.org/Doc/INPUT_PW.html) / [ABINIT](https://docs.abinit.org/variables/) / [VASP](https://www.vasp.at/wiki/) input files
+  - ASE / [Gromacs](http://manual.gromacs.org/archive/5.0.7/online/trj.html) / [LAMMPS](https://lammps.sandia.gov/doc/dump.html) / [Amber](http://ambermd.org/netcdf/nctraj.xhtml) trajectory files
+  - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
 
-!!! tip
-    For the reasons mentioned above a good long-term storage format
-    (in the eyes of the AtomsIO authors) is the extended XYZ format
-    via the [`ExtxyzParser`](@ref).
-    This format and parser has a
-    [well-documented specification](https://github.com/libAtoms/extxyz#extended-xyz-specifcation)
-    and moreover leads to a human-readable plain-text file.
+For more details see [Saving and loading files](@ref) and [File Formats](@ref).
+
+!!! note Python-based parsers
+    Reading / writing some formats relies on parser libraries from third-party Python packages.
+    To avoid introducing Python dependencies in all packages employing `AtomsIO` the additional
+    package `AtomsIOPython` needs to be loaded to make these parsers available.
+    See [File Formats](@ref) for more details.
 
 ## Usage example
 
 ```julia
-using AtomsIO
+using AtomsIO        # Enables only Julia-based parsers
+using AtomsIOPython  # Enable python-based parsers as well
 
 # Load system from a cif file ... by default uses ASE.
 # Returns an AtomsBase-compatible system.
