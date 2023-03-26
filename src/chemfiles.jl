@@ -1,5 +1,7 @@
 import Chemfiles
 using Logging
+using Unitful
+using UnitfulAtomic
 
 """
 Parse or write file using [Chemfiles](https://github.com/chemfiles/Chemfiles.jl).
