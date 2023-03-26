@@ -1,4 +1,4 @@
-using AtomsIO
+using AtomsIOPython
 using Test
 include("common.jl")
 
@@ -6,6 +6,10 @@ function make_ase_system(args...; drop_atprop=Symbol[], kwargs...)
     # ASE does not support vdw_radius and covalent_radius
     dropkeys = [:covalent_radius, :vdw_radius]
     make_test_system(args...; drop_atprop=append!(drop_atprop, dropkeys), kwargs...)
+end
+
+@testset "ASE parser has been added" begin
+    @test AseParser() in AtomsIO.DEFAULT_PARSER_ORDER
 end
 
 @testset "ASE system write/read" begin
