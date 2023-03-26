@@ -34,6 +34,7 @@ jobs:
       - uses: julia-actions/julia-runtest@v1
         env:
           GROUP: ${{ matrix.group }}
+          GROUP_COVERAGE: true
       - uses: julia-actions/julia-processcoverage@v1
         with:
           directories: src,lib/AtomsIOPython/src
