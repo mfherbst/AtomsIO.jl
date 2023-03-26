@@ -5,10 +5,10 @@ const GROUP = get(ENV, "GROUP", "Core")
 
 if GROUP == "Core"
     @testset "AtomsIO.jl" begin
-        include("ase.jl")
         include("chemfiles.jl")
         include("extxyz.jl")
-        include("comparison.jl")
+        # For the comparison tests (also between Chemfiles and ExtXYZ and other
+        # non-python libraries) see the AtomsIOPython subproject
     end
 else
     subpkg_path = joinpath(dirname(@__DIR__), "lib", GROUP)

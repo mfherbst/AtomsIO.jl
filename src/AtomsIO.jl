@@ -6,10 +6,10 @@ using UnitfulAtomic
 import PeriodicTable
 
 include("parser.jl")
-include("ase.jl")
 include("chemfiles.jl")
 include("extxyz.jl")
+include("saveload.jl")
 
 export load_system, save_system, load_trajectory, save_trajectory
-export AbstractParser, AseParser, ChemfilesParser, ExtxyzParser
+export AbstractParser, ChemfilesParser, ExtxyzParser
 end
