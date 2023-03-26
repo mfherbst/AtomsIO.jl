@@ -50,12 +50,13 @@ jobs:
         with:
           version: '1'
       - uses: julia-actions/julia-buildpkg@v1
+      - name: Install documentation dependencies
+        run: |
+          julia --project=docs/ -e '
+            using Pkg;
+            Pkg.develop(PackageSpec(path=pwd()));
+            Pkg.develop(PackageSpec(path=joinpath(pwd(), "lib/AtomsIOPython")));
+            Pkg.instantiate()'
       - uses: julia-actions/julia-docdeploy@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: |
-          julia --project=docs -e '
-            using Documenter: DocMeta, doctest
-            using AtomsIO
-            DocMeta.setdocmeta!(AtomsIO, :DocTestSetup, :(using AtomsIO); recursive=true)
-            doctest(AtomsIO)'
