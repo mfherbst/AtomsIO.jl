@@ -14,15 +14,9 @@ function determine_parser(file; save=false, trajectory=false)
         type = trajectory ? "trajectory" : "system"
         operation = save ? "save" : "load"
 
-        errormsg = "Could not find a parser to $operation $type from file $file."
+        errormsg = "Could not find a parser to $operation $type from/to file $file."
         if !isdefined(Main, :AtomsIOPython)
-            errormsg *= (
-                "\n\nAtomsIO has an integration with a number of python libraries (such as " *
-                "ASE) to support parsing a wide range of atomic structure files. However, " *
-                "these are not activated by default to avoid hard-coding unneccessary " *
-                "python dependencies. To activate these additional python-based parsers " *
-                "try a 'using AtomsIOPython' before calling `load_system` or `save_system`."
-            )
+            errormsg *= " Try activating the python parsers by 'using AtomsIOPython'."
         end
         error(errormsg)
     end
