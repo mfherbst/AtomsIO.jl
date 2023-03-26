@@ -1,4 +1,4 @@
-using AtomsIO
+using AtomsIOPython
 using Test
 include("common.jl")
 

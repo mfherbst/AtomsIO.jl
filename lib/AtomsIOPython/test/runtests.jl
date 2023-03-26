@@ -1,4 +1,3 @@
-using AtomsIOPython
 using Test
 
 @testset "AtomsIOPython.jl" begin

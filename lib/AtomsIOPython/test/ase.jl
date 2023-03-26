@@ -1,5 +1,4 @@
-using AtomsIO
-using AtomsIO: supports_parsing
+using AtomsIOPython
 using Test
 include("common.jl")
 
