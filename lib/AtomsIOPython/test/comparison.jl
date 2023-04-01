@@ -1,6 +1,6 @@
 using AtomsIOPython
 using Test
-include("common.jl")
+using AtomsBaseTesting
 
 @testset "Test simple CIF files parse the same" begin
     mktempdir() do d

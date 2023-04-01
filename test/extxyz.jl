@@ -1,6 +1,6 @@
 using AtomsIO
 using Test
-include("common.jl")
+using AtomsBaseTesting
 
 @testset "ExtXYZ system write / read" begin
     system = make_test_system().system

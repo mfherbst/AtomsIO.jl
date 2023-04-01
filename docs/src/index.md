@@ -19,7 +19,7 @@ and supports all file formats any of these packages support
 
 For more details see [Saving and loading files](@ref) and [File Formats](@ref).
 
-!!! note Python-based parsers
+!!! note "Python-based parsers"
     Reading / writing some formats relies on parser libraries from third-party Python packages.
     To avoid introducing Python dependencies in all packages employing `AtomsIO` the additional
     package `AtomsIOPython` needs to be loaded to make these parsers available.
