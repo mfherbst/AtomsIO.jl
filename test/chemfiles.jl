@@ -1,11 +1,13 @@
 using AtomsIO
 using Test
-include("common.jl")
+using AtomsBaseTesting
+using Unitful
+using UnitfulAtomic
 
 function make_chemfiles_system(D=3; drop_atprop=Symbol[], infinite=false, kwargs...)
     dropkeys = [:covalent_radius, :vdw_radius]  # Cannot be mutated in Chemfiles
     data = make_test_system(D; drop_atprop=append!(drop_atprop, dropkeys),
-                            extra_sysprop=(; extra_data=42.0), cellmatrix=:lower_triangular,
+                            extra_sysprop=(; extra_data=42.0), cellmatrix=:upper_triangular,
                             kwargs...)
     if infinite
         system = isolated_system(data.atoms; data.sysprop...)
