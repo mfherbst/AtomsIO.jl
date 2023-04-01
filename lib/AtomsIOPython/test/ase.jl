@@ -1,6 +1,6 @@
 using AtomsIOPython
 using Test
-include("common.jl")
+using AtomsBaseTesting
 
 function make_ase_system(args...; drop_atprop=Symbol[], kwargs...)
     # ASE does not support vdw_radius and covalent_radius
