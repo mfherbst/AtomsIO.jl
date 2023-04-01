@@ -41,6 +41,9 @@ or similar. This should automatically install all required python dependencies.
     [well-documented specification](https://github.com/libAtoms/extxyz#extended-xyz-specifcation)
     and moreover leads to a human-readable plain-text file.
 
+The following list all currently available parsers, in the order they are tried
+(top to bottom):
+
 ```@docs
 AtomsIO.ExtxyzParser
 AtomsIO.ChemfilesParser
