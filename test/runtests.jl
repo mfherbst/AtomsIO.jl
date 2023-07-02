@@ -8,6 +8,7 @@ if GROUP == "Core"
     @testset "AtomsIO.jl" begin
         include("chemfiles.jl")
         include("extxyz.jl")
+        include("failed_files.jl")
         # For the comparison tests (also between Chemfiles and ExtXYZ and other
         # non-python libraries) see the AtomsIOPython subproject
     end
