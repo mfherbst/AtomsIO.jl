@@ -1,7 +1,7 @@
-import XSF
+import XCrySDenStructureFormat as XSF
 
 """
-Parse or write file using [XSF](https://github.com/azadoks/XSF.jl)
+Parse or write file using [XSF](https://github.com/azadoks/XCrySDenStructureFormat.jl)
 
 Supported formats:
   - [XSF](http://www.xcrysden.org/doc/XSF.html)
