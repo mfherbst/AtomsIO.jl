@@ -46,6 +46,7 @@ The following list all currently available parsers, in the order they are tried
 
 ```@docs
 AtomsIO.ExtxyzParser
+AtomsIO.XcrysdenstructureformatParser
 AtomsIO.ChemfilesParser
 AtomsIOPython.AseParser
 ```

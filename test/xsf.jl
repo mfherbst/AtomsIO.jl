@@ -3,6 +3,8 @@ using Test
 using AtomsBaseTesting
 
 @testset "XSF system write / read" begin
+    XsfParser = AtomsIO.XcrysdenstructureformatParser
+
     system = make_test_system().system
     mktempdir() do d
         outfile = joinpath(d, "output.xsf")
@@ -13,6 +15,8 @@ using AtomsBaseTesting
 end
 
 @testset "XSF trajectory write/read" begin
+    XsfParser = AtomsIO.XcrysdenstructureformatParser
+
     systems = [make_test_system().system for _ in 1:3]
     mktempdir() do d
         outfile = joinpath(d, "output.axsf")
@@ -28,6 +32,8 @@ end
 
 @testset "ExtXYZ supports_parsing" begin
     import AtomsIO: supports_parsing
+    XsfParser = AtomsIO.XcrysdenstructureformatParser
+
     prefix = "test"
     save = trajectory = true
     @test  supports_parsing(XsfParser(), prefix * ".xsf";    save, trajectory)

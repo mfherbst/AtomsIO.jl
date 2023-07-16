@@ -4,7 +4,9 @@
 # *breaking change* (as it alters the behaviour of AtomsIO.load_system).
 # Moreover since not all users will want to rely on Python dependencies, it is
 # crucial that the python packages are only *appended* to this list.
-const DEFAULT_PARSER_ORDER = AbstractParser[ExtxyzParser(), ChemfilesParser()]
+const DEFAULT_PARSER_ORDER = AbstractParser[
+    ExtxyzParser(), XcrysdenstructureformatParser(), ChemfilesParser(),
+]
 
 function determine_parser(file; save=false, trajectory=false)
     idx_parser = findfirst(DEFAULT_PARSER_ORDER) do parser
