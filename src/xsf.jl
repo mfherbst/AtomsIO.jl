@@ -16,15 +16,15 @@ function supports_parsing(::XcrysdenstructureformatParser, file; save, trajector
 end
 
 function load_system(::XcrysdenstructureformatParser, file::AbstractString, index=nothing)
-    if !isnothing(index)
+    if isnothing(index)
+        frames = XSF.load_xsf(file)
+        isempty(frames) && error(
+            "XSF returned no frames. Check the passed file is a valid (a)xsf file."
+        )
+        return last(frames)
+    else
         return XSF.load_xsf(file)[index]
     end
-
-    frames = XSF.load_xsf(file)
-    isempty(frames) && error(
-        "XSF returned no frames. Check the passed file is a valid (a)xsf file."
-    )
-    return last(frames)
 end
 
 function save_system(::XcrysdenstructureformatParser,
@@ -33,7 +33,7 @@ function save_system(::XcrysdenstructureformatParser,
 end
 
 function load_trajectory(::XcrysdenstructureformatParser, file::AbstractString)
-    return XSF.load_xsf(file)
+    XSF.load_xsf(file)
 end
 
 function save_trajectory(::XcrysdenstructureformatParser, file::AbstractString,
