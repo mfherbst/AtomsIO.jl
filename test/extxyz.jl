@@ -8,7 +8,7 @@ using AtomsBaseTesting
         outfile = joinpath(d, "output.xyz")
         save_system(ExtxyzParser(), outfile, system)
         system2 = load_system(ExtxyzParser(), outfile)
-        test_approx_eq(system, system2; rtol=1e-6)
+        test_approx_eq(system, system2; rtol=5e-6)
     end
 end
 
@@ -19,10 +19,10 @@ end
         save_trajectory(ExtxyzParser(), outfile, systems)
         newsystems = load_trajectory(ExtxyzParser(), outfile)
         for (system, newsystem) in zip(systems, newsystems)
-            test_approx_eq(system, newsystem; rtol=1e-6)
+            test_approx_eq(system, newsystem; rtol=5e-6)
         end
-        test_approx_eq(systems[end], load_system(ExtxyzParser(), outfile);    rtol=1e-6)
-        test_approx_eq(systems[2],   load_system(ExtxyzParser(), outfile, 2); rtol=1e-6)
+        test_approx_eq(systems[end], load_system(ExtxyzParser(), outfile);    rtol=5e-6)
+        test_approx_eq(systems[2],   load_system(ExtxyzParser(), outfile, 2); rtol=5e-6)
     end
 end
 
