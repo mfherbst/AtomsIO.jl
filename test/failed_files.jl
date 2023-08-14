@@ -6,11 +6,19 @@ using LinearAlgebra
 # Tests parsing files, where previously users reported problems
 @testset "Failed files" begin
 @testset "Empty XYZ" begin
-    @test_throws "ExtXYZ returned no frames." load_system("files/empty.xyz")
+    @static if VERSION < v"1.8"
+        @test_throws ErrorException load_system("files/empty.xyz")
+    else
+        @test_throws "ExtXYZ returned no frames." load_system("files/empty.xyz")
+    end
 end
 
 @testset "XYZ from Lammps" begin
-    @test_throws "ExtXYZ returned no frames." load_system("files/lammps.xyz")
+    @static if VERSION < v"1.8"
+        @test_throws ErrorException load_system("files/lammps.xyz")
+    else
+        @test_throws "ExtXYZ returned no frames." load_system("files/lammps.xyz")
+    end
 end
 
 @testset "CIF Graphene P6/mmm" begin

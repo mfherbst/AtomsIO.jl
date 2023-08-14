@@ -16,20 +16,14 @@ function supports_parsing(::XcrysdenstructureformatParser, file; save, trajector
 end
 
 function load_system(::XcrysdenstructureformatParser, file::AbstractString, index=nothing)
-    if !isnothing(index)
-        return XSF.load_xsf(file)[index]
-    end
-
-
     frames = XSF.load_xsf(file)
-    if !(frames isa AbstractVector)
-        # load_xsf Returns plain structure in case only a single structure in the file
-        return frames
-    else
-        isempty(frames) && error(
-            "XSF returned no frames. Check the passed file is a valid (a)xsf file."
-        )
+    isempty(frames) && error(
+        "XSF returned no frames. Check the passed file is a valid (a)xsf file."
+    )
+    if isnothing(index)
         return last(frames)
+    else
+        return frames[index]
     end
 end
 
@@ -39,14 +33,7 @@ function save_system(::XcrysdenstructureformatParser,
 end
 
 function load_trajectory(::XcrysdenstructureformatParser, file::AbstractString)
-    # load_xsf Returns plain structure in case only a single structure in the file,
-    # so we need to re-wrap to keep a consistent interface.
-    ret = XSF.load_xsf(file)
-    if !(ret isa AbstractVector)
-        return [ret]
-    else
-        return ret
-    end
+    XSF.load_xsf(file)
 end
 
 function save_trajectory(::XcrysdenstructureformatParser, file::AbstractString,
