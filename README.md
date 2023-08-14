@@ -16,7 +16,7 @@ AtomsIO currently integrates with
 
   - [Chemfiles](https://github.com/chemfiles/Chemfiles.jl)
   - [ExtXYZ](https://github.com/libAtoms/ExtXYZ.jl)
-  - [XCrySDenStructureFormat.jl](https://github.com/azadoks/XCrySDenStructureFormat.jl)
+  - [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl)
   - [ASEconvert](https://github.com/mfherbst/ASEconvert.jl)
     (respectively [ASE](https://wiki.fysik.dtu.dk/ase/))
 
