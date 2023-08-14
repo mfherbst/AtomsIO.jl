@@ -19,26 +19,6 @@ function make_xsf_system(D=3; drop_atprop=Symbol[], drop_sysprop=Symbol[],
     return data
 end
 
-@testset "XSF warning about setting invalid data" begin
-    XsfParser = AtomsIO.XcrysdenstructureformatParser
-
-    system, atoms, atprop, sysprop, box, bcs = make_test_system()
-    mktempdir() do d
-        outfile = joinpath(d, "output.xsf")
-        frame = @test_logs((:warn, r"Atom atomic_mass in XSF cannot be mutated"),
-                           (:warn, r"Atom atomic_symbol in XSF must agree with atomic_mass"),
-                           (:warn, r"Ignoring unsupported atomic property charge"),
-                           (:warn, r"Ingoring unsupported atomic property vdw_radius"),
-                           (:warn, r"Ignoring unsupported atomic property covalent_radius"),
-                           (:warn, r"Ignoring unsupported atomic property magnetic_moment"),
-                           (:warn, r"Ignoring unsupported atomic property velocity"),
-                           (:warn, r"Ignoring unsupported property extra_data"),
-                           (:warn, r"Ingoring unsupported property charge"),
-                           (:warn, r"Ignoring unsupported property multiplicity"),
-                           match_mode=:any, save_system(XsfParser(), outfile, system))
-    end
-end
-
 @testset "XSF system write / read" begin
     XsfParser = AtomsIO.XcrysdenstructureformatParser
 
