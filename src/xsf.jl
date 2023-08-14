@@ -16,14 +16,14 @@ function supports_parsing(::XcrysdenstructureformatParser, file; save, trajector
 end
 
 function load_system(::XcrysdenstructureformatParser, file::AbstractString, index=nothing)
+    frames = XSF.load_xsf(file)
+    isempty(frames) && error(
+        "XSF returned no frames. Check the passed file is a valid (a)xsf file."
+    )
     if isnothing(index)
-        frames = XSF.load_xsf(file)
-        isempty(frames) && error(
-            "XSF returned no frames. Check the passed file is a valid (a)xsf file."
-        )
         return last(frames)
     else
-        return XSF.load_xsf(file)[index]
+        return frames[index]
     end
 end
 
