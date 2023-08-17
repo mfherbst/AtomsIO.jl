@@ -17,7 +17,7 @@ XCrySDenStructureFormat = "02310045-4665-40c9-a658-98c497d2eca9"
 [compat]
 AtomsBase = "0.3"
 AtomsBaseTesting = "0.1"
-Chemfiles = "0.10.3"
+Chemfiles = "0.10.41"
 ExtXYZ = "0.1.11"
 PeriodicTable = "1"
 Reexport = "1"
