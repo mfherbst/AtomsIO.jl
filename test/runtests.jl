@@ -6,6 +6,7 @@ const GROUP_COVERAGE = !isempty(get(ENV, "GROUP_COVERAGE", ""))
 
 if GROUP == "Core"
     @testset "AtomsIO.jl" begin
+        include("safe_load.jl")
         include("chemfiles.jl")
         include("extxyz.jl")
         include("xsf.jl")
