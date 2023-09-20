@@ -17,7 +17,7 @@ struct AseParser <: AbstractParser end
 function AtomsIO.supports_parsing(::AseParser, file; save, trajectory)
     format = ""
     try
-        format = ase.io.formats.filetype(file; read=!save, guess=false)
+        format = ase.io.formats.filetype(file; read=!save, guess=true)
     catch e
         e isa PyException && return false
         rethrow()
