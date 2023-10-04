@@ -19,6 +19,8 @@ function _extxyz_read_frames(args...; kwargs...)
     try
         frames = ExtXYZ.read_frames(args...; kwargs...)
     catch e
+        # Version branch is needed because current_exceptions only
+        # appeared in 1.7
         if VERSION ≥ v"1.7" && e isa TaskFailedException
             cur_e = last(current_exceptions(e.task))
             rethrow(cur_e.exception)

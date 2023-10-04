@@ -14,7 +14,9 @@ using LinearAlgebra
 end
 
 @testset "Zero atoms in XYZ" begin
-    @static if VERSION < v"1.8"
+    @static if VERSION < v"1.7"
+        @test_throws TaskFailedException load_system("files/zero_atoms.xyz")
+    elseif VERSION < v"1.8"
         @test_throws ErrorException load_system("files/zero_atoms.xyz")
     else
         @test_throws "ExtXYZ frame contains zero atoms." load_system("files/zero_atoms.xyz")
