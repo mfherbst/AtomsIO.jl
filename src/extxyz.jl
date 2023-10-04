@@ -19,7 +19,7 @@ function _extxyz_read_frames(args...; kwargs...)
     try
         frames = ExtXYZ.read_frames(args...; kwargs...)
     catch e
-        if e isa TaskFailedException
+        if VERSION ≥ v"1.7" && e isa TaskFailedException
             cur_e = last(current_exceptions(e.task))
             rethrow(cur_e.exception)
         else
