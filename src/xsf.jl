@@ -4,7 +4,7 @@ import XCrySDenStructureFormat as XSF
 Parse or write file using [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl).
 
 Supported formats:
-  - [XSF](http://www.xcrysden.org/doc/XSF.html) and [AXSF](XCrySDenStructureFormat)
+  - [XSF](http://www.xcrysden.org/doc/XSF.html) and [AXSF](http://www.xcrysden.org/doc/XSF.html)
     atomic structure files. These are the files typically used by the
     [XCrySDen](http://www.xcrysden.org/) visualisation program.
 """
