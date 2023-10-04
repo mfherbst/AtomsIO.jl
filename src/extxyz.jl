@@ -20,14 +20,15 @@ function _extxyz_read_frames(args...; kwargs...)
         frames = ExtXYZ.read_frames(args...; kwargs...)
     catch e
         if e isa TaskFailedException
-            rethrow(current_exceptions(e.task))
+            cur_e = last(current_exceptions(e.task))
+            rethrow(cur_e.exception)
         else
             rethrow()
         end
     end
-    isempty(frames) && error(
-        "ExtXYZ returned no frames. Check the passed file is a valid (ext)xyz file."
-    )
+    if isnothing(frames) || isempty(frames)
+        error("ExtXYZ returned no frames. Check the passed file is a valid (ext)xyz file.")
+    end
     frames
 end
 
