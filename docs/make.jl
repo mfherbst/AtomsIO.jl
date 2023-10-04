@@ -16,7 +16,6 @@ DocMeta.setdocmeta!(AtomsIO, :DocTestSetup, :(using AtomsIO, AtomsIOPython); rec
 makedocs(;
     modules=[AtomsIO, AtomsIOPython],
     authors="Michael F. Herbst <info@michael-herbst.com> and contributors",
-    repo="https://github.com/mfherbst/AtomsIO.jl/blob/{commit}{path}#{line}",
     sitename="AtomsIO",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
@@ -30,7 +29,6 @@ makedocs(;
         "file_formats.md",
     ],
     checkdocs=:exports,
-    strict=true
 )
 
 deploydocs(;
