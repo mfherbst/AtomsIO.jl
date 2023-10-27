@@ -63,8 +63,10 @@ end
         @test  supports_parsing(AseParser(), prefix * ".cif";  save=true,  trajectory=true )
         @test  supports_parsing(AseParser(), prefix * ".traj"; save=true,  trajectory=false)
         @test  supports_parsing(AseParser(), prefix * ".traj"; save=true,  trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".xsf";  save=true,  trajectory=false)
+        @test  supports_parsing(AseParser(), prefix * ".xsf";  save=true,  trajectory=true )
 
-        for ext in (".pwi", ".cif", ".traj")
+        for ext in (".pwi", ".cif", ".traj", ".xsf")
             save_system(AseParser(), prefix * ext, make_ase_system().system)
         end
 
@@ -74,5 +76,7 @@ end
         @test  supports_parsing(AseParser(), prefix * ".cif";  save=false, trajectory=true )
         @test  supports_parsing(AseParser(), prefix * ".traj"; save=false, trajectory=false)
         @test  supports_parsing(AseParser(), prefix * ".traj"; save=false, trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".xsf";  save=false, trajectory=false)
+        @test  supports_parsing(AseParser(), prefix * ".xsf";  save=false, trajectory=true )
     end
 end
