@@ -12,7 +12,6 @@ Supported formats:
   - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
 """
 @kwdef struct AseParser <: AbstractParser 
-    read::Bool = true
     guess::Bool = true
 end
 
@@ -20,7 +19,8 @@ end
 function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
     format = ""
     try
-        format = ase.io.formats.filetype(file; read=parser.read, guess=parser.guess)
+        # read=true causes ASE to open the file, read a few bytes and check for magic bytes
+        format = ase.io.formats.filetype(file; read=!save, guess=parser.guess)
     catch e
         e isa PyException && return false
         rethrow()
