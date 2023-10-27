@@ -31,29 +31,16 @@ function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
     end
 
     ioformat = ase.io.formats.ioformats[format]
-    supports_trajectory = '+' in ase.io.formats.ioformats[format].code
+    supports_trajectory = '+' in ioformat.code
 
-    if save # Check whether ASE can write format
-        if Bool(ioformat.can_write)
-            if trajectory
-                return supports_trajectory
-            else
-                return true
-            end
-        else
-            return false
-        end
-    else # Check whether ASE can read format
-        if Bool(ioformat.can_read)
-            if trajectory
-                return supports_trajectory
-            else
-                return true
-            end
-        else
-            return false
-        end
+    if (
+        (save && pyconvert(Bool, ioformat.can_write)) || # Check whether ASE can write format
+        (!save && pyconvert(Bool, ioformat.can_read)) # Check whether ASE can read format
+       )
+        return (trajectory ? supports_trajectory : true)
     end
+
+    return false
 end
 
 function AtomsIO.load_system(::AseParser, file::AbstractString, index=nothing;
