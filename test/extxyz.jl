@@ -1,7 +1,3 @@
-using AtomsIO
-using Test
-using AtomsBaseTesting
-
 @testset "ExtXYZ system write / read" begin
     system = make_test_system().system
     mktempdir() do d

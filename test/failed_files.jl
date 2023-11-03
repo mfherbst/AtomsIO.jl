@@ -1,6 +1,3 @@
-using Test
-using AtomsIO
-using Unitful
 using LinearAlgebra
 
 # Tests parsing files, where previously users reported problems

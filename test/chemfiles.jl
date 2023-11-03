@@ -1,5 +1,5 @@
-using AtomsIO
 using Test
+using AtomsIO
 using AtomsBaseTesting
 using Unitful
 using UnitfulAtomic
