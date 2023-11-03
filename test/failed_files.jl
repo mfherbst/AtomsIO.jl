@@ -19,7 +19,7 @@ end
     elseif VERSION < v"1.8"
         @test_throws ErrorException load_system("files/zero_atoms.xyz")
     else
-        @test_throws "ExtXYZ frame contains zero atoms." load_system("files/zero_atoms.xyz")
+        @test_throws "ExtXYZ returned no frames. Check the passed file is a valid (ext)xyz file." load_system("files/zero_atoms.xyz")
     end
 end
 
