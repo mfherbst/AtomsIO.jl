@@ -18,6 +18,15 @@ end
 
 function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
     format = ""
+
+    if !save && !parser.guess
+        @warn("There is a bug in ASE (as of 08/11/2023, ASE 3.22), which gets triggered "
+              "when trying to save files with `AseParser(; guess=false)`. This could mean "
+              "that AtomsIO falsely reports a file as unsupported even though it is indeed "
+              "supported for writing in ASe. In this case use `AseParser(; guess=true)` and"
+              "try again.")
+    end
+
     try
         # read=true causes ASE to open the file, read a few bytes and check for magic bytes
         format = ase.io.formats.filetype(file; read=!save, guess=parser.guess)
