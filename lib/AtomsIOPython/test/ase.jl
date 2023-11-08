@@ -79,7 +79,7 @@ end
         @test  supports_parsing(AseParser(), prefix * ".xsf";  save=false, trajectory=false)
         @test  supports_parsing(AseParser(), prefix * ".xsf";  save=false, trajectory=true )
 
-        @test_warn "There is a bug in ASE" begin
+        @test_logs (:warn, ) begin
             supports_parsing(AseParser(; guess=false), prefix * ".pwi"; save=false, trajectory=false)
         end
     end
