@@ -11,7 +11,7 @@ Supported formats:
   - ASE trajectory files
   - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
 """
-Base.@kwdef struct AseParser <: AbstractParser 
+Base.@kwdef struct AseParser <: AbstractParser
     guess::Bool = true
 end
 
