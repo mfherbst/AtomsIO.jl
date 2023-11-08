@@ -32,15 +32,15 @@ function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
 
     ioformat = ase.io.formats.ioformats[format]
     supports_trajectory = '+' in ioformat.code
-
-    if (
-        (save && pyconvert(Bool, ioformat.can_write)) || # Check whether ASE can write format
-        (!save && pyconvert(Bool, ioformat.can_read)) # Check whether ASE can read format
-       )
-        return (trajectory ? supports_trajectory : true)
+    if save && !pyconvert(Bool, ioformat.can_write)
+        return false  # Want to write, but ASE cannot write
+    elseif !save && !pyconvert(Bool, ioformat.can_read)
+        return false  # Want to read, but ASE cannot read
+    elseif trajectory && !supports_trajectory
+        return false  # Trajectory operations, but not supported by ASE
     end
 
-    return false
+    true # We got here, so all is good
 end
 
 function AtomsIO.load_system(::AseParser, file::AbstractString, index=nothing;
