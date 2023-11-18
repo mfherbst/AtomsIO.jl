@@ -11,13 +11,25 @@ Supported formats:
   - ASE trajectory files
   - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
 """
-struct AseParser <: AbstractParser end
+Base.@kwdef struct AseParser <: AbstractParser
+    guess::Bool = true
+end
 
 
-function AtomsIO.supports_parsing(::AseParser, file; save, trajectory)
+function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
     format = ""
+
+    if !save && !parser.guess
+        @warn("There is a bug in ASE (as of 08/11/2023, ASE 3.22), which gets triggered " *
+              "when trying to read files with `AseParser(; guess=false)`. This could mean " *
+              "that AtomsIO falsely reports a file as unsupported even though it is indeed " *
+              "supported for reading with ASE. In this case use `AseParser(; guess=true)` and" *
+              "try again.")
+    end
+
     try
-        format = ase.io.formats.filetype(file; read=!save, guess=false)
+        # read=true causes ASE to open the file, read a few bytes and check for magic bytes
+        format = ase.io.formats.filetype(file; read=!save, guess=parser.guess)
     catch e
         e isa PyException && return false
         rethrow()
@@ -25,13 +37,19 @@ function AtomsIO.supports_parsing(::AseParser, file; save, trajectory)
 
     if !(format in ase.io.formats.ioformats)
         return false
-    elseif trajectory
-        # Loading/saving multiple systems is supported only if + in code
-        supports_trajectory = '+' in ase.io.formats.ioformats[format].code
-        return supports_trajectory
-    else
-        return true
     end
+
+    ioformat = ase.io.formats.ioformats[format]
+    supports_trajectory = '+' in ioformat.code
+    if save && !pyconvert(Bool, ioformat.can_write)
+        return false  # Want to write, but ASE cannot write
+    elseif !save && !pyconvert(Bool, ioformat.can_read)
+        return false  # Want to read, but ASE cannot read
+    elseif trajectory && !supports_trajectory
+        return false  # Trajectory operations, but not supported by ASE
+    end
+
+    true # We got here, so all is good
 end
 
 function AtomsIO.load_system(::AseParser, file::AbstractString, index=nothing;
