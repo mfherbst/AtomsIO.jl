@@ -63,10 +63,14 @@ end
         @test  supports_parsing(AseParser(), prefix * ".cif";  save=true,  trajectory=true )
         @test  supports_parsing(AseParser(), prefix * ".traj"; save=true,  trajectory=false)
         @test  supports_parsing(AseParser(), prefix * ".traj"; save=true,  trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".xyz";  save=true,  trajectory=false)
+        @test  supports_parsing(AseParser(), prefix * ".xyz";  save=true,  trajectory=true )
         @test  supports_parsing(AseParser(), prefix * ".xsf";  save=true,  trajectory=false)
         @test  supports_parsing(AseParser(), prefix * ".xsf";  save=true,  trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".vasp"; save=true,  trajectory=false)
+        @test !supports_parsing(AseParser(), prefix * ".vasp"; save=true,  trajectory=true )
 
-        for ext in (".pwi", ".cif", ".traj", ".xsf")
+        for ext in (".pwi", ".cif", ".traj", ".xyz", ".xsf", ".vasp")
             save_system(AseParser(), prefix * ext, make_ase_system().system)
         end
 
@@ -76,8 +80,12 @@ end
         @test  supports_parsing(AseParser(), prefix * ".cif";  save=false, trajectory=true )
         @test  supports_parsing(AseParser(), prefix * ".traj"; save=false, trajectory=false)
         @test  supports_parsing(AseParser(), prefix * ".traj"; save=false, trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".xyz";  save=false, trajectory=false)
+        @test  supports_parsing(AseParser(), prefix * ".xyz";  save=false, trajectory=true )
         @test  supports_parsing(AseParser(), prefix * ".xsf";  save=false, trajectory=false)
         @test  supports_parsing(AseParser(), prefix * ".xsf";  save=false, trajectory=true )
+        @test  supports_parsing(AseParser(), prefix * ".vasp"; save=false, trajectory=false)
+        @test !supports_parsing(AseParser(), prefix * ".vasp"; save=false, trajectory=true )
 
         @test_logs (:warn, ) begin
             supports_parsing(AseParser(; guess=false), prefix * ".pwi"; save=false, trajectory=false)

@@ -21,9 +21,9 @@ function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
 
     if !save && !parser.guess
         @warn("There is a bug in ASE (as of 08/11/2023, ASE 3.22), which gets triggered " *
-              "when trying to save files with `AseParser(; guess=false)`. This could mean " *
+              "when trying to read files with `AseParser(; guess=false)`. This could mean " *
               "that AtomsIO falsely reports a file as unsupported even though it is indeed " *
-              "supported for writing in ASe. In this case use `AseParser(; guess=true)` and" *
+              "supported for reading with ASE. In this case use `AseParser(; guess=true)` and" *
               "try again.")
     end
 
