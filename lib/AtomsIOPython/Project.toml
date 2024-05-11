@@ -1,7 +1,7 @@
 name = "AtomsIOPython"
 uuid = "9e4c859b-2281-48ef-8059-f50fe53c37b0"
 authors = ["Michael F. Herbst <info@michael-herbst.com> and contributors"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 ASEconvert = "3da9722f-58c2-4165-81be-b4d7253e8fd2"
