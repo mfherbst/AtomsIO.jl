@@ -65,7 +65,7 @@ end
 
 function AtomsIO.load_trajectory(::AseParser, file::AbstractString; format=nothing)
     systems = ase.io.read(file; format, index=":")
-    pyconvert.(AbstractSystem, systems)
+    pyconvert(Vector{AbstractSystem}, systems)
 end
 
 function AtomsIO.save_trajectory(::AseParser, file::AbstractString,
