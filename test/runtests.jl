@@ -1,5 +1,9 @@
 using Test
 using Pkg
+using AtomsIO, AtomsBaseTesting
+using Unitful, UnitfulAtomic
+
+using Chemfiles, ExtXYZ, XCrySDenStructureFormat
 
 const GROUP = get(ENV, "GROUP", "Core")
 const GROUP_COVERAGE = !isempty(get(ENV, "GROUP_COVERAGE", ""))

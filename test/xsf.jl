@@ -1,10 +1,3 @@
-using AtomsIO
-using Test
-using AtomsBaseTesting
-using Unitful
-using UnitfulAtomic
-
-
 function make_xsf_system(D=3; drop_atprop=Symbol[], drop_sysprop=Symbol[], kwargs...)
     @assert D == 3  # Only 3D systems are supported
     n_atoms = 5     # Copied from AtomsBaseTesting.make_test_system, used for making forces
