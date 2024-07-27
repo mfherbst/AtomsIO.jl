@@ -1,7 +1,3 @@
-using Test
-using AtomsIO
-using AtomsBaseTesting
-
 @testset "save / load / determine_parser" begin
     system = make_test_system().system
 
