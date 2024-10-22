@@ -8,8 +8,7 @@ using UnitfulAtomic
 function make_xsf_system(D=3; drop_atprop=Symbol[], drop_sysprop=Symbol[], kwargs...)
     @assert D == 3  # Only 3D systems are supported
     n_atoms = 5     # Copied from AtomsBaseTesting.make_test_system, used for making forces
-    xsf_drop_atprop = [:velocity, :charge, :atomic_mass, :vdw_radius, :covalent_radius,
-                       :magnetic_moment]
+    xsf_drop_atprop = [:velocity, :charge, :mass, :vdw_radius, :covalent_radius, :magnetic_moment]
     xsf_drop_sysprop = [:extra_data, :charge, :multiplicity]
     force = [randn(3)u"Eh_au/Å" for _ in 1:n_atoms]
     make_test_system(D; drop_atprop=append!(drop_atprop, xsf_drop_atprop),
