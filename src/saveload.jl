@@ -1,15 +1,29 @@
-# The list of parsers in the order to try them.
-# Python-based parsers are appended once AtomsIOPython is loaded.
-# Note: For reproducibility reasons changing the order of these parsers is a
-# *breaking change* (as it alters the behaviour of AtomsIO.load_system).
-# Moreover since not all users will want to rely on Python dependencies, it is
-# crucial that the python packages are only *appended* to this list.
-const DEFAULT_PARSER_ORDER = AbstractParser[
-    ExtxyzParser(), XcrysdenstructureformatParser(), ChemfilesParser(),
-]
+
+# Mechanics to add additional parsers automatically in a well-defined order
+# Add marker structs here for every new "category" of parsers that become
+# dynamically available (e.g. the PythonParsers() defined in AtomsIOPython)
+struct PythonParsers end
+atomsio_extra_parsers(marker) = AbstractParser[]
+
+function default_parsers()
+    # The list of parsers in the order to try them.
+    # Python-based parsers are appended once AtomsIOPython is loaded,
+    # since this defines an appropriate method for the PythonParsers() marker struct.
+    #
+    # Note: For reproducibility reasons changing the order of these parsers is a
+    # *breaking change* (as it alters the behaviour of AtomsIO.load_system).
+    # Moreover since not all users will want to rely on Python dependencies, it is
+    # crucial that the python packages are only *appended* to this list.
+
+    AbstractParser[
+        ExtxyzParser(), XcrysdenstructureformatParser(), ChemfilesParser(),
+        atomsio_extra_parsers(PythonParsers())... # Add python parsers if they are available
+    ]
+end
 
 function determine_parser(file; save=false, trajectory=false)
-    idx_parser = findfirst(DEFAULT_PARSER_ORDER) do parser
+    parsers = default_parsers()
+    idx_parser = findfirst(parsers) do parser
         supports_parsing(parser, file; save, trajectory)
     end
     if isnothing(idx_parser)
@@ -22,7 +36,7 @@ function determine_parser(file; save=false, trajectory=false)
         end
         error(errormsg)
     end
-    DEFAULT_PARSER_ORDER[idx_parser]
+    parsers[idx_parser]
 end
 
 
