@@ -16,7 +16,6 @@ AtomsIO currently integrates with
 
   - [Chemfiles](https://github.com/chemfiles/Chemfiles.jl)
   - [ExtXYZ](https://github.com/libAtoms/ExtXYZ.jl)
-  - [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl)
   - [ASEconvert](https://github.com/mfherbst/ASEconvert.jl)
     (respectively [ASE](https://wiki.fysik.dtu.dk/ase/))
 
@@ -27,6 +26,18 @@ Amongst others AtomsIO supports the following formats
   - [Quantum Espresso](https://www.quantum-espresso.org/Doc/INPUT_PW.html) / [ABINIT](https://docs.abinit.org/variables/) / [VASP](https://www.vasp.at/wiki/) input files
   - ASE / [Gromacs](http://manual.gromacs.org/archive/5.0.7/online/trj.html) / [LAMMPS](https://lammps.sandia.gov/doc/dump.html) / [Amber](http://ambermd.org/netcdf/nctraj.xhtml) trajectory files
   - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
-  - [XCrySDen](http://www.xcrysden.org/doc/XSF.html) structure and trajectory files
 
 For more details see the [documentation](https://mfherbst.github.io/AtomsIO.jl/stable).
+
+## File formats supported in earlier versions
+These file formats were supported in earlier versions of AtomsIO, but are now
+dropped as the implementing packages lack a maintainer and no longer function
+with the most recent version of AtomsBase.
+
+  - [XSF](http://www.xcrysden.org/doc/XSF.html) (XCrySDen) structure and
+    trajectory files were supported using the
+    [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl)
+    package.
+    In case of interest,
+    see the [draft PR](https://github.com/azadoks/XCrySDenStructureFormat.jl/pull/6),
+    which can be completed to re-enable support.
