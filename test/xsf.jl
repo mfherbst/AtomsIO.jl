@@ -4,6 +4,9 @@ using AtomsBaseTesting
 using Unitful
 using UnitfulAtomic
 
+# TODO Note that this test is currently not included in runtests.jl
+#      since https://github.com/azadoks/XCrySDenStructureFormat.jl is looking
+#      for a new maintainer.
 
 function make_xsf_system(D=3; drop_atprop=Symbol[], drop_sysprop=Symbol[], kwargs...)
     @assert D == 3  # Only 3D systems are supported

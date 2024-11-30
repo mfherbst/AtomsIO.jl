@@ -24,8 +24,8 @@ end
     @test maximum(abs, reduced - Diagonal(reduced)) < 1e-12u"Å"
     @test diag(reduced) ≈ [2.4595, 4.26, 30]u"Å"
 
-    @test atomic_symbol(parsed) == [:C1, :C2, :C3, :C4]
-    @test atomic_number(parsed) == [6, 6, 6, 6]
+    @test atomic_symbol(parsed, :) == [:C, :C, :C, :C]
+    @test atomic_number(parsed, :) == [6, 6, 6, 6]
     @test parsed[:name] == "Graphene"
 end
 end

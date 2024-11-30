@@ -12,7 +12,7 @@ function make_chemfiles_system(D=3; drop_atprop=Symbol[], infinite=false, kwargs
     if infinite
         cell = IsolatedCell(3)
     else
-        cell = PeriodicCell(; cell_vectors=data.box, periodicity=(true, true, true))
+        cell = PeriodicCell(; data.cell_vectors, periodicity=(true, true, true))
     end
     system = AtomsBase.FlexibleSystem(data.atoms, cell; data.sysprop...)
     merge(data, (; system))
