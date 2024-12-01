@@ -55,7 +55,9 @@ system = load_system("Si.cif")
 
 # ... or do a DFT calculation using DFTK.
 using DFTK
-model  = model_LDA(system)
+using PseudoPotentialData
+pseudopotentials = PseudoFamily("dojo.nc.sr.lda.v0_4_1.oncvpsp3.standard.upf")
+model  = model_DFT(system; pseudopotentials)
 basis  = PlaneWaveBasis(model; Ecut=15, kgrid=(3, 3, 3))
 scfres = self_consistent_field(basis);
 
