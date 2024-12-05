@@ -23,7 +23,7 @@ end
     drop_atprop  = [:covalent_radius, :vdw_radius, :velocity, :charge, :mass]
     drop_sysprop = [:extra_data]
     data = make_test_system(; drop_atprop, drop_sysprop, cellmatrix=:lower_triangular)
-    system = periodic_system(data.atoms, data.box; data.sysprop...)
+    system = periodic_system(data.atoms, data.cell_vectors; data.sysprop...)
 
     mktempdir() do d
         outfile = joinpath(d, "output.xyz")
