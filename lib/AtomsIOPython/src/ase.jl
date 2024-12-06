@@ -15,8 +15,9 @@ Base.@kwdef struct AseParser <: AbstractParser
     guess::Bool = true
 end
 
-
-function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
+# Use ASE to auto-determine the format to be employed
+# Returns emptystring ift he format is unknown.
+function determine_format(parser::AseParser, file; save, trajectory)::String
     format = ""
 
     if !save && !parser.guess
@@ -29,15 +30,24 @@ function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
 
     try
         # read=true causes ASE to open the file, read a few bytes and check for magic bytes
-        format = ase.io.formats.filetype(file; read=!save, guess=parser.guess)
+        format = pyconvert(String, ase.io.formats.filetype(file;
+                                                           read=!save, guess=parser.guess))
     catch e
-        e isa PyException && return false
-        rethrow()
+        if !(e isa PyException)
+            rethrow()
+        end
     end
 
-    if !(format in ase.io.formats.ioformats)
-        return false
+    if (format in ase.io.formats.ioformats)
+        return format
+    else
+        return ""
     end
+end
+
+function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
+    format = determine_format(parser, file; save, trajectory)
+    isempty(format) && return false
 
     ioformat = ase.io.formats.ioformats[format]
     supports_trajectory = '+' in ioformat.code
@@ -52,15 +62,31 @@ function AtomsIO.supports_parsing(parser::AseParser, file; save, trajectory)
     true # We got here, so all is good
 end
 
+function pseudopotentials_for_quantum_espresso(system, ::Nothing)
+    Dict{String,String}(string(element_symbol(atom)) => "" for atom in system)
+end
+function pseudopotentials_for_quantum_espresso(system, rawpseudos::AbstractDict{Symbol,String})
+    Dict{String,String}(string(el) => rawpseudos[el] for el in element_symbol(system, :))
+end
+
 function AtomsIO.load_system(::AseParser, file::AbstractString, index=nothing;
                              format=nothing)
     pyindex = isnothing(index) ? nothing : index - 1
     pyconvert(AbstractSystem, ase.io.read(file; format, index=pyindex))
 end
 
-function AtomsIO.save_system(::AseParser, file::AbstractString, system::AbstractSystem;
-                             format=nothing)
-    ase.io.write(file, convert_ase(system); format)
+function AtomsIO.save_system(parser::AseParser, file::AbstractString,
+                             system::AbstractSystem;
+                             format=nothing, pseudopotentials=nothing)
+    # In ASE 3.23 one has to supply a pseudopotentials dict for QE files,
+    # otherwise things break on the python side ... this essentially triggers all this
+    extra_args = (; )
+    parsed_format = @something format determine_format(parser, file; save=true, trajectory=false)
+    if parsed_format in ("espresso-in", "espresso-out")
+        pseudos_qe = pseudopotentials_for_quantum_espresso(system, pseudopotentials)
+        extra_args = (; pseudopotentials=pseudos_qe)
+    end
+    ase.io.write(file, convert_ase(system); format, extra_args...)
 end
 
 function AtomsIO.load_trajectory(::AseParser, file::AbstractString; format=nothing)

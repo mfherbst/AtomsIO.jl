@@ -10,15 +10,16 @@ function make_chemfiles_system(D=3; drop_atprop=Symbol[], infinite=false, kwargs
                             extra_sysprop=(; extra_data=42.0), cellmatrix=:upper_triangular,
                             kwargs...)
     if infinite
-        system = isolated_system(data.atoms; data.sysprop...)
+        cell = IsolatedCell(3)
     else
-        system = periodic_system(data.atoms, data.box; data.sysprop...)
+        cell = PeriodicCell(; data.cell_vectors, periodicity=(true, true, true))
     end
+    system = AtomsBase.FlexibleSystem(data.atoms, cell; data.sysprop...)
     merge(data, (; system))
 end
 
 @testset "Chemfiles system write / read" begin
-    system = make_chemfiles_system(; drop_atprop=[:atomic_mass]).system
+    system = make_chemfiles_system(; drop_atprop=[:mass]).system
     mktempdir() do d
         outfile = joinpath(d, "output.cml")
         save_system(ChemfilesParser(), outfile, system)
@@ -30,7 +31,7 @@ end
 
 @testset "Chemfiles trajectory write/read" begin
     ignore_atprop = [:covalent_radius, :vdw_radius]
-    systems = [make_chemfiles_system(; drop_atprop=[:atomic_mass]).system for _ in 1:3]
+    systems = [make_chemfiles_system(; drop_atprop=[:mass]).system for _ in 1:3]
     mktempdir() do d
         outfile = joinpath(d, "output.cml")
         save_trajectory(ChemfilesParser(), outfile, systems)
@@ -41,7 +42,7 @@ end
 
         test_approx_eq(systems[end], load_system(ChemfilesParser(), outfile);
                        rtol=1e-6, ignore_atprop)
-        test_approx_eq(systems[2],   load_system(ChemfilesParser(), outfile, 2);
+        test_approx_eq(systems[2], load_system(ChemfilesParser(), outfile, 2);
                        rtol=1e-6, ignore_atprop)
     end
 end

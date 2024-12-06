@@ -6,7 +6,6 @@ AtomsIO currently integrates with
 
   - [Chemfiles](https://github.com/chemfiles/Chemfiles.jl)
   - [ExtXYZ](https://github.com/libAtoms/ExtXYZ.jl)
-  - [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl)
   - [ASEconvert](https://github.com/mfherbst/ASEconvert.jl)
     (respectively [ASE](https://wiki.fysik.dtu.dk/ase/))
 
@@ -17,7 +16,6 @@ and supports all file formats any of these packages support
   - [Quantum Espresso](https://www.quantum-espresso.org/Doc/INPUT_PW.html) / [ABINIT](https://docs.abinit.org/variables/) / [VASP](https://www.vasp.at/wiki/) input files
   - ASE / [Gromacs](http://manual.gromacs.org/archive/5.0.7/online/trj.html) / [LAMMPS](https://lammps.sandia.gov/doc/dump.html) / [Amber](http://ambermd.org/netcdf/nctraj.xhtml) trajectory files
   - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
-  - [XSF](http://www.xcrysden.org/doc/XSF.html) (XCrySDen) atomic structure files.
 
 For more details see [Saving and loading files](@ref) and [File Formats](@ref).
 
@@ -26,6 +24,18 @@ For more details see [Saving and loading files](@ref) and [File Formats](@ref).
     To avoid introducing Python dependencies in all packages employing `AtomsIO` the additional
     package `AtomsIOPython` needs to be loaded to make these parsers available.
     See [File Formats](@ref) for more details.
+
+!!! note "Formats supported in earlier versions of AtomsIO"
+    These file formats were supported in earlier versions of AtomsIO, but are now
+    dropped as the implementing packages lack a maintainer and no longer function
+    with the most recent version of AtomsBase.
+      - [XSF](http://www.xcrysden.org/doc/XSF.html) (XCrySDen) structure and
+        trajectory files were supported using the
+        [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl)
+        package.
+        In case of interest,
+        see the [draft PR](https://github.com/azadoks/XCrySDenStructureFormat.jl/pull/6),
+        which can be completed to re-enable support.
 
 ## Usage example
 
@@ -45,7 +55,9 @@ system = load_system("Si.cif")
 
 # ... or do a DFT calculation using DFTK.
 using DFTK
-model  = model_LDA(system)
+using PseudoPotentialData
+pseudopotentials = PseudoFamily("dojo.nc.sr.lda.v0_4_1.oncvpsp3.standard.upf")
+model  = model_DFT(system; pseudopotentials)
 basis  = PlaneWaveBasis(model; Ecut=15, kgrid=(3, 3, 3))
 scfres = self_consistent_field(basis);
 

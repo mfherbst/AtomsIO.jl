@@ -3,7 +3,7 @@ import ExtXYZ
 """
 Parse or write file using [ExtXYZ](https://github.com/libAtoms/ExtXYZ.jl)
 
-Supported formats:  
+Supported formats:
   - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
 """
 struct ExtxyzParser <: AbstractParser end
@@ -19,9 +19,7 @@ function _extxyz_read_frames(args...; kwargs...)
     try
         frames = ExtXYZ.read_frames(args...; kwargs...)
     catch e
-        # Version branch is needed because current_exceptions only
-        # appeared in 1.7
-        if VERSION ≥ v"1.7" && e isa TaskFailedException
+        if e isa TaskFailedException
             cur_e = last(current_exceptions(e.task))
             rethrow(cur_e.exception)
         else

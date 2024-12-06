@@ -9,7 +9,7 @@ function make_ase_system(args...; drop_atprop=Symbol[], kwargs...)
 end
 
 @testset "ASE parser has been added" begin
-    @test AseParser() in AtomsIO.DEFAULT_PARSER_ORDER
+    @test AseParser() in AtomsIO.default_parsers()
 end
 
 @testset "ASE system write/read" begin
