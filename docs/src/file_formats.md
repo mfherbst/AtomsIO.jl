@@ -13,7 +13,7 @@ Note that one can always overwrite the automatic `AtomsIO` selection by providin
 the parser library explicitly as first argument.
 
 AtomsIO also features an integration with a number of python libraries
-(such as [ASE](https://wiki.fysik.dtu.dk/ase/))
+(such as [ASE](https://ase-lib.org))
 to support parsing a wide range of atomic structure files.
 These python-based are not enabled by default to avoid introducing Python dependencies
 for down-stream code when this can be avoided. Python-dependent code paths can be

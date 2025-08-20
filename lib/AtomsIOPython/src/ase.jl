@@ -78,7 +78,7 @@ end
 function AtomsIO.save_system(parser::AseParser, file::AbstractString,
                              system::AbstractSystem;
                              format=nothing, pseudopotentials=nothing)
-    # In ASE 3.23 one has to supply a pseudopotentials dict for QE files,
+    # Since ASE 3.23 one has to supply a pseudopotentials dict for QE files,
     # otherwise things break on the python side ... this essentially triggers all this
     extra_args = (; )
     parsed_format = @something format determine_format(parser, file; save=true, trajectory=false)
