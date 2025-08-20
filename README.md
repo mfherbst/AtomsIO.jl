@@ -17,7 +17,7 @@ AtomsIO currently integrates with
   - [Chemfiles](https://github.com/chemfiles/Chemfiles.jl)
   - [ExtXYZ](https://github.com/libAtoms/ExtXYZ.jl)
   - [ASEconvert](https://github.com/mfherbst/ASEconvert.jl)
-    (respectively [ASE](https://wiki.fysik.dtu.dk/ase/))
+    (respectively [ASE](https://ase-lib.org))
 
 and supports all file formats any of these packages support.
 Amongst others AtomsIO supports the following formats
