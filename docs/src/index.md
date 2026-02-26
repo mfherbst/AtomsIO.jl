@@ -25,18 +25,6 @@ For more details see [Saving and loading files](@ref) and [File Formats](@ref).
     package `AtomsIOPython` needs to be loaded to make these parsers available.
     See [File Formats](@ref) for more details.
 
-!!! note "Formats supported in earlier versions of AtomsIO"
-    These file formats were supported in earlier versions of AtomsIO, but are now
-    dropped as the implementing packages lack a maintainer and no longer function
-    with the most recent version of AtomsBase.
-      - [XSF](http://www.xcrysden.org/doc/XSF.html) (XCrySDen) structure and
-        trajectory files were supported using the
-        [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl)
-        package.
-        In case of interest,
-        see the [draft PR](https://github.com/azadoks/XCrySDenStructureFormat.jl/pull/6),
-        which can be completed to re-enable support.
-
 ## Usage example
 
 ```julia

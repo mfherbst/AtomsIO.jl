@@ -28,16 +28,3 @@ Amongst others AtomsIO supports the following formats
   - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
 
 For more details see the [documentation](https://mfherbst.github.io/AtomsIO.jl/stable).
-
-## File formats supported in earlier versions
-These file formats were supported in earlier versions of AtomsIO, but are now
-dropped as the implementing packages lack a maintainer and no longer function
-with the most recent version of AtomsBase.
-
-  - [XSF](http://www.xcrysden.org/doc/XSF.html) (XCrySDen) structure and
-    trajectory files were supported using the
-    [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl)
-    package.
-    In case of interest,
-    see the [draft PR](https://github.com/azadoks/XCrySDenStructureFormat.jl/pull/6),
-    which can be completed to re-enable support.
