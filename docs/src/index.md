@@ -8,6 +8,7 @@ AtomsIO currently integrates with
   - [ExtXYZ](https://github.com/libAtoms/ExtXYZ.jl)
   - [ASEconvert](https://github.com/mfherbst/ASEconvert.jl)
     (respectively [ASE](https://ase-lib.org))
+  - [XCrySDenStructureFormat](https://github.com/azadoks/XCrySDenStructureFormat.jl)
 
 and supports all file formats any of these packages support
 (see their respective documentation). This includes
@@ -16,6 +17,7 @@ and supports all file formats any of these packages support
   - [Quantum Espresso](https://www.quantum-espresso.org/Doc/INPUT_PW.html) / [ABINIT](https://docs.abinit.org/variables/) / [VASP](https://www.vasp.at/wiki/) input files
   - ASE / [Gromacs](http://manual.gromacs.org/archive/5.0.7/online/trj.html) / [LAMMPS](https://lammps.sandia.gov/doc/dump.html) / [Amber](http://ambermd.org/netcdf/nctraj.xhtml) trajectory files
   - [XYZ](https://openbabel.org/wiki/XYZ) and [extxyz](https://github.com/libAtoms/extxyz#extended-xyz-specification-and-parsing-tools) files
+  - [XSF](http://www.xcrysden.org/doc/XSF.html) (XCrySDen) structure and trajectory files
 
 For more details see [Saving and loading files](@ref) and [File Formats](@ref).
 
