@@ -18,12 +18,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.9'
-          - 'nightly'
+          - 'lts'
+          - '1'
         group:
           - Core
           - AtomsIOPython
-    continue-on-error: ${{ matrix.version == 'nightly' }}
     steps:
       - uses: actions/checkout@v7
       - uses: julia-actions/setup-julia@v3
