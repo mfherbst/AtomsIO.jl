@@ -18,12 +18,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.9'
-          - 'nightly'
+          - 'lts'
+          - '1'
         group:
           - Core
           - AtomsIOPython
-    continue-on-error: ${{ matrix.version == 'nightly' }}
     steps:
       - uses: actions/checkout@v7
       - uses: julia-actions/setup-julia@v3
@@ -52,15 +51,11 @@ jobs:
       - uses: actions/checkout@v7
       - uses: julia-actions/setup-julia@v3
         with:
-          version: '1'
-      - uses: julia-actions/julia-buildpkg@v1
-      - name: Install documentation dependencies
-        run: |
-          julia --project=docs/ -e '
-            using Pkg;
-            Pkg.develop(PackageSpec(path=pwd()));
-            Pkg.develop(PackageSpec(path=joinpath(pwd(), "lib/AtomsIOPython")));
-            Pkg.instantiate()'
+          version: '1.12'
+      - uses: julia-actions/cache@v3
       - uses: julia-actions/julia-docdeploy@v1
+        with:
+          # Local packages are provided through [sources] in docs/Project.toml
+          install-package: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

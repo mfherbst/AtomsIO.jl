@@ -1,7 +1,6 @@
 module AtomsIO
 using Reexport
 @reexport using AtomsBase
-import PeriodicTable
 
 include("parser.jl")
 include("chemfiles.jl")

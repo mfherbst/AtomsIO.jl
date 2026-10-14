@@ -14,7 +14,9 @@ end
 end
 
 @testset "XYZ from Lammps" begin
-    @test_throws "ExtXYZ returned no frames." load_system("files/lammps.xyz")
+    @test_throws "extxyz parse error: Failed to parse string at pos 7" begin
+        load_system("files/lammps.xyz")
+    end
 end
 
 @testset "CIF Graphene P6/mmm" begin

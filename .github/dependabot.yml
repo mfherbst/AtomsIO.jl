@@ -5,3 +5,20 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      all-github-actions:
+        patterns:
+          - "*"
+
+  # Replaces CompatHelper: keeps [compat] entries of all Julia projects up to date
+  - package-ecosystem: "julia"
+    directories:
+      - "/"
+      - "/lib/AtomsIOPython"
+      - "/docs"
+    schedule:
+      interval: "weekly"
+    groups:
+      all-julia-packages:
+        patterns:
+          - "*"

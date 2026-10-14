@@ -31,7 +31,7 @@ function determine_parser(file; save=false, trajectory=false)
         operation = save ? "save" : "load"
 
         errormsg = "Could not find a parser to $operation $type from/to file $file."
-        if !isdefined(Main, :AtomsIOPython)
+        if isempty(atomsio_extra_parsers(PythonParsers()))
             errormsg *= " Try activating the python parsers by 'using AtomsIOPython'."
         end
         error(errormsg)
