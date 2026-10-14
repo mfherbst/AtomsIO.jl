@@ -1,11 +1,8 @@
-# Setup julia dependencies for docs generation if not yet done
+# Setup julia dependencies for docs generation. The local AtomsIO and AtomsIOPython
+# are pulled in via the [sources] section of docs/Project.toml (requires Julia 1.11+).
 import Pkg
 Pkg.activate(@__DIR__)
-if !isfile(joinpath(@__DIR__, "Manifest.toml"))
-    Pkg.develop(Pkg.PackageSpec(path=joinpath(@__DIR__, "..")))
-    Pkg.develop(Pkg.PackageSpec(path=joinpath(@__DIR__, "../lib/AtomsIOPython")))
-    Pkg.instantiate()
-end
+Pkg.instantiate()
 
 using AtomsIO
 using AtomsIOPython

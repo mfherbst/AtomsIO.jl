@@ -13,7 +13,7 @@ ASEconvert = "0.1.8, 0.2, 0.3"
 AtomsBaseTesting = "0.4"
 AtomsIO = "0.3"
 Reexport = "1"
-julia = "1.9"
+julia = "1.10"
 
 [extras]
 AtomsBase = "a963bdd2-2df7-4f54-a1ee-49d51e6be12a"
